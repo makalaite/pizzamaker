@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
+use App\Models\DbCheeses;
 use Illuminate\Routing\Controller;
+use Ramsey\Uuid\Uuid;
 
 class DbCheesesController extends Controller {
 
@@ -12,7 +14,7 @@ class DbCheesesController extends Controller {
 	 */
 	public function index()
 	{
-		//
+		return view('cheese');
 	}
 
 	/**
@@ -23,7 +25,17 @@ class DbCheesesController extends Controller {
 	 */
 	public function create()
 	{
-		//
+        $data = request()->all();
+        //$data('name')= $data('city') jei neatitinka reiksmes su duomabazes
+
+        $record = DbCheeses::create([
+            'id' => Uuid::uuid4(),
+            'name' => $data['name'],
+
+        ]);
+
+
+        return view('cheese', $record->toArray());
 	}
 
 	/**

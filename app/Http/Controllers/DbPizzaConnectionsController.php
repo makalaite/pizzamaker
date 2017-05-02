@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
+use App\Http\DbPizzaConnections;
 use Illuminate\Routing\Controller;
+use Ramsey\Uuid\Uuid;
 
 class DbPizzaConnectionsController extends Controller {
 
@@ -12,7 +14,7 @@ class DbPizzaConnectionsController extends Controller {
 	 */
 	public function index()
 	{
-		//
+		return view('pizza');
 	}
 
 	/**
@@ -23,7 +25,7 @@ class DbPizzaConnectionsController extends Controller {
 	 */
 	public function create()
 	{
-		//
+
 	}
 
 	/**

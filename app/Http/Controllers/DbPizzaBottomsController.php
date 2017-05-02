@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
+use App\Models\DbPizzaBottoms;
 use Illuminate\Routing\Controller;
+use Ramsey\Uuid\Uuid;
 
 class DbPizzaBottomsController extends Controller {
 
@@ -12,7 +14,7 @@ class DbPizzaBottomsController extends Controller {
 	 */
 	public function index()
 	{
-		//
+	    return view('base');
 	}
 
 	/**
@@ -23,7 +25,16 @@ class DbPizzaBottomsController extends Controller {
 	 */
 	public function create()
 	{
-		//
+        $data = request()->all();
+        //$data('name')= $data('city') jei neatitinka reiksmes su duomabazes
+
+        $record = DbPizzaBottoms::create([
+            'id' => Uuid::uuid4(),
+            'name' => $data['name'],
+        ]);
+
+
+        return view('base', $record->toArray());
 	}
 
 	/**
@@ -34,7 +45,7 @@ class DbPizzaBottomsController extends Controller {
 	 */
 	public function store()
 	{
-		//
+        //return view('app.cities.create');
 	}
 
 	/**

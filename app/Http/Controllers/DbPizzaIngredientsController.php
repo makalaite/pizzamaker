@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers;
 
+use App\DbPizzaIngredients;
 use Illuminate\Routing\Controller;
+use Ramsey\Uuid\Uuid;
 
 class DbPizzaIngredientsController extends Controller {
 
@@ -12,7 +14,7 @@ class DbPizzaIngredientsController extends Controller {
 	 */
 	public function index()
 	{
-		//
+		return view('ingredients');
 	}
 
 	/**
@@ -23,7 +25,16 @@ class DbPizzaIngredientsController extends Controller {
 	 */
 	public function create()
 	{
-		//
+        $data = request()->all();
+        //$data('name')= $data('city') jei neatitinka reiksmes su duomabazes
+
+        $record = DbPizzaIngredients::create([
+            'id' => Uuid::uuid4(),
+            'name' => $data['name'],
+        ]);
+
+
+        return view('ingredients', $record->toArray());
 	}
 
 	/**

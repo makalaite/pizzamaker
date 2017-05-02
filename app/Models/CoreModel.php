@@ -6,13 +6,14 @@
  * Time: 14:04
  */
 
-namespace App;
+namespace App\Models;
 
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Ramsey\Uuid\Uuid;
 
-class CoreModel
+class CoreModel extends Model
 {
     use SoftDeletes;
 
