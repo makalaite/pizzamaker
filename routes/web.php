@@ -22,13 +22,14 @@ Route::post('/cheese', ['as' => 'app.cheese', 'uses' => 'DbCheesesController@cre
 
 
 
-Route::get('/base', ['uses' => 'DbPizzaBottomsController@index']);
+Route::get('/base', ['uses' => 'DbBaseController@index']);
 
 
-Route::post('/base', ['as' => 'app.base', 'uses' => 'DbPizzaBottomsController@create']);
+Route::post('/base', ['as' => 'app.base', 'uses' => 'DbBaseController@create']);
 
 
-Route::get('/ingredients', ['uses' => 'DbPizzaIngredientsController@index']);
+
+Route::get('/ingredients', ['uses' => 'DbIngredientsController@index']);
 
 
-Route::post('/ingredients', ['as' => 'app.ingredients', 'uses' => 'DbPizzaIngredientsController@create']);
+Route::post('/ingredients', ['as' => 'app.ingredients', 'uses' => 'DbIngredientsController@create']);
