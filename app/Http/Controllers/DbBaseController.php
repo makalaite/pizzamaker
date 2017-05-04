@@ -14,7 +14,7 @@ class DbBaseController extends Controller {
 	 */
 	public function index()
 	{
-	    return view('base');
+	    return DbBase::get();
 	}
 
 	/**
@@ -25,16 +25,7 @@ class DbBaseController extends Controller {
 	 */
 	public function create()
 	{
-        $data = request()->all();
-        //$data('name')= $data('city') jei neatitinka reiksmes su duomabazes
-
-        $record = DbBase::create([
-            'id' => Uuid::uuid4(),
-            'base' => $data['name'],
-        ]);
-
-
-        return view('base', $record->toArray());
+        return view('create.base');
 	}
 
 	/**
@@ -45,7 +36,16 @@ class DbBaseController extends Controller {
 	 */
 	public function store()
 	{
-        //return view('app.cities.create');
+        $data = request()->all();
+
+        $record = DbBase::create([
+            'id' => Uuid::uuid4(),
+            'calories' => $data['calories'],
+            'name' => $data['name']
+        ]);
+
+
+        return view('create.base', $record->toArray());
 	}
 
 	/**

@@ -14,7 +14,7 @@ class DbIngredientsController extends Controller {
 	 */
 	public function index()
 	{
-		return view('ingredients');
+		return DbIngredients::get();
 	}
 
 	/**
