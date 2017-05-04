@@ -7,6 +7,8 @@
 {!! Form::open(['url' => route('app.ingredients')]) !!}
 {{ Form::label('name', 'ingredients') }}
 {{ Form::text('name') }}
+{{ Form::label('name', 'calories') }}
+{{ Form::text('calories') }}
 {{ Form::submit('submit!')}}
 {!! Form::close() !!}
 
