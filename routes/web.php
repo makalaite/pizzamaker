@@ -11,25 +11,49 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('welcome');
 });
 
-Route::get('/cheese', ['uses' => 'DbCheesesController@index']);
+Route::group(['prefix' => 'cheeses'], function () {
 
+    Route::get('/', ['uses' => 'DbCheesesController@index']);
 
-Route::post('/cheese', ['as' => 'app.cheese', 'uses' => 'DbCheesesController@create']);
-
-
-
-Route::get('/base', ['uses' => 'DbBaseController@index']);
-
-
-Route::post('/base', ['as' => 'app.base', 'uses' => 'DbBaseController@create']);
+    Route::get('/create', ['uses' => 'DbCheesesController@create']);
+    Route::post('/create', ['as' => 'app.cheese', 'uses' => 'DbCheesesController@store']);
+});
 
 
 
-Route::get('/ingredients', ['uses' => 'DbIngredientsController@index']);
+Route::group(['prefix' => 'pizza'], function (){
+
+    Route::get('/', ['uses' => 'DbPizzaController@index']);
+
+    Route::get('/create', ['uses' => 'DbPizzaController@create']);
+    Route::post('/create', ['as' => 'app.pizza', 'uses' => 'DbPizzaController@store']);
+});
 
 
-Route::post('/ingredients', ['as' => 'app.ingredients', 'uses' => 'DbIngredientsController@create']);
+
+Route::group(['prefix' => 'base'], function (){
+
+    Route::get('/', ['uses' => 'DbBaseController@index']);
+
+    Route::get('/create', ['uses' => 'DbBaseController@create']);
+    Route::post('/create', ['as' => 'app.base', 'uses' => 'DbBaseController@store']);
+
+});
+
+
+Route::group(['prefix' => 'ingredients'], function (){
+
+    Route::get('/', ['uses' => 'DbIngredientsController@index']);
+
+    Route::get('/create', ['uses' => 'DbIngredientsController@create']);
+    Route::post('/create', ['as' => 'app.ingredients', 'uses' => 'DbIngredientsController@store']);
+});
+
+
+
+
+
