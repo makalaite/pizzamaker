@@ -25,16 +25,7 @@ class DbIngredientsController extends Controller {
 	 */
 	public function create()
 	{
-        $data = request()->all();
-        //$data('name')= $data('city') jei neatitinka reiksmes su duomabazes
-
-        $record = DbIngredients::create([
-            'id' => Uuid::uuid4(),
-            'name' => $data['name'],
-        ]);
-
-
-        return view('ingredients', $record->toArray());
+        return view('create.ingredients');
 	}
 
 	/**
@@ -45,7 +36,11 @@ class DbIngredientsController extends Controller {
 	 */
 	public function store()
 	{
-		//
+        $data = request()->all();
+
+        $record = DbIngredients::create($data);
+
+        return view('create.ingredients', $record->toArray());
 	}
 
 	/**

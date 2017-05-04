@@ -30,7 +30,7 @@ class DbBaseController extends Controller {
 
         $record = DbBase::create([
             'id' => Uuid::uuid4(),
-            'name' => $data['name'],
+            'base' => $data['name'],
         ]);
 
 

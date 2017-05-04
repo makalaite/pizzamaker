@@ -14,7 +14,7 @@ class DbCheesesController extends Controller {
 	 */
 	public function index()
 	{
-		return view('cheese');
+        return DbCheeses::get();
 	}
 
 	/**
@@ -25,17 +25,7 @@ class DbCheesesController extends Controller {
 	 */
 	public function create()
 	{
-        $data = request()->all();
-        //$data('name')= $data('city') jei neatitinka reiksmes su duomabazes
-
-        $record = DbCheeses::create([
-            'id' => Uuid::uuid4(),
-            'name' => $data['name'],
-
-        ]);
-
-
-        return view('cheese', $record->toArray());
+        return view('create.cheese');
 	}
 
 	/**
@@ -46,7 +36,11 @@ class DbCheesesController extends Controller {
 	 */
 	public function store()
 	{
-		//
+        $data = request()->all();
+
+        $record = DbCheeses::create($data);
+
+        return view('create.cheese', $record->toArray());
 	}
 
 	/**
