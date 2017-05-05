@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 <body>
+
+@if (isset ($error))
+    <div style="color:red"> {{ $error['message'] }}</div>
+@endif
+
 @if (isset ($name))
     <div> Choose your own pizza : {{ $name }}</div>
 @endif
@@ -8,15 +13,19 @@ Choose your own pizza :
 <br/>
 {!! Form::open(['url' => route('app.pizza')]) !!}
 
+{{ Form::label('client_name', 'Your name here: ') }}
+{{ Form::text('client_name') }}
+<br/>
+
 {{ Form::label('Select a base you like: ') }}
 <br/>
-{{ Form::select('Pizza base ', array('P' => 'pilno grūdo miltų picos padas', 'M' => 'mielinis picos padas')) }}
+{{ Form::select('base_id', $base) }}
 <br/>
 <br/>
 
 {{ Form::label('Select a cheese you like: ') }}
 <br/>
-{{ Form::select('Cheese ', array('M' => 'Mocarela', 'S' => 'Šveicariškas', 'C' => 'Čederis')) }}
+{{ Form::select('cheese_id', $cheese) }}
 
 <br>
 <div> Choose 3 ingredients: </div>
@@ -26,6 +35,9 @@ Choose your own pizza :
         {{$oneIngredient}}
     </label><br>
 @endforeach
+
+{{ Form::label('comment', 'Comment') }}
+{{ Form::text('comment') }}
 
 {{ Form::submit('submit!')}}
 
