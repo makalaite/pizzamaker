@@ -31,7 +31,14 @@ Route::group(['prefix' => 'pizza'], function (){
 
     Route::get('/create', ['uses' => 'DbPizzaController@create']);
     Route::post('/create', ['as' => 'app.pizza', 'uses' => 'DbPizzaController@store']);
+
+    Route::group(['prefix' => '{id}'], function (){
+        Route::get('/', ['uses' => 'DbPizzaController@show']);
+        Route::get('/edit', ['uses' => 'DbPizzaController@edit']);
+        Route::post('/edit', ['as' => 'app.pizza.edit', 'uses' => 'DbPizzaController@update']);
+    });
 });
+
 
 
 
