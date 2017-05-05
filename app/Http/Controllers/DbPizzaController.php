@@ -18,15 +18,37 @@ class DbPizzaController extends Controller {
 	 */
 	public function index()
 	{
-		return DbPizza::get();
+        $config = [];
+        $config['list'] = DbPizza::with(['ingredients', 'cheese', 'base'])->get()->toArray();
+
+        foreach($config['list'] as &$pizza)
+        {
+            $pizza['calories'] = 0;
+            $pizza['calories'] += $pizza['cheese']['calories'];
+            $pizza['calories'] += $pizza['base']['calories'];
+
+            foreach ($pizza['ingredients'] as $ingredient)
+            {
+                $pizza['calories'] += $ingredient['ingredients_data']['calories'];
+            }
+        }
+
+        return view('allOrders', $config);
 	}
 
 	private function getFormData()
     {
+
         $configuration = [];
         $configuration['cheese'] = DbCheeses::pluck('name', 'id')->toArray();
+        $configuration['cheeseCalories'] = DbCheeses::pluck('calories', 'id')->toArray();
+
         $configuration['base'] = DbBase::pluck('name', 'id')->toArray();
+        $configuration['baseCalories'] = DbBase::pluck('calories', 'id')->toArray();
+
         $configuration['ingredient'] = DbIngredients::pluck('name', 'id')->toArray();
+        $configuration['ingredientCalories'] = DbIngredients::pluck('calories', 'id')->toArray();
+
 
         return $configuration;
     }
@@ -65,8 +87,8 @@ class DbPizzaController extends Controller {
 
 
         $record = DbPizza::create([
-            'cheese_id' => $data['cheese_id'],
-            'base_id' => $data['base_id'],
+            'cheese_id' => $data['cheese_id'][0],
+            'base_id' => $data['base_id'][0],
             'comment' => $data['comment'],
             'client_name' => $data['client_name']
         ]);
@@ -97,7 +119,10 @@ class DbPizzaController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+        $configuration = $this->getFormData();
+        $configuration['record'] = DbPizza::with('cheese', 'base', 'ingredients')->find($id)->toArray();
+
+        return view('editOrder', $configuration);
 	}
 
 	/**
