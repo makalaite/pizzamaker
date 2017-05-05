@@ -18,8 +18,18 @@ class DbPizzaController extends Controller {
 	 */
 	public function index()
 	{
-		return view('pizza');
+		return DbPizza::get();
 	}
+
+	private function getFormData()
+    {
+        $configuration = [];
+        $configuration['cheese'] = DbCheeses::pluck('name', 'id')->toArray();
+        $configuration['base'] = DbBase::pluck('name', 'id')->toArray();
+        $configuration['ingredient'] = DbIngredients::pluck('name', 'id')->toArray();
+
+        return $configuration;
+    }
 
 	/**
 	 * Show the form for creating a new resource.
@@ -29,10 +39,7 @@ class DbPizzaController extends Controller {
 	 */
 	public function create()
 	{
-        $configuration = [];
-        $configuration['cheese'] = DbCheeses::pluck('name', 'id')->toArray();
-        $configuration['base'] = DbBase::pluck('name', 'id')->toArray();
-        $configuration['ingredient'] = DbIngredients::pluck('name', 'id')->toArray();
+        $configuration = $this->getFormData();
 
         return view('create.pizza', $configuration);
 	}
@@ -46,10 +53,18 @@ class DbPizzaController extends Controller {
 	public function store()
 	{
         $data = request()->all();
-        //$data('name')= $data('city') jei neatitinka reiksmes su duomabazes
+
+        $configuration = $this->getFormData();
+
+        if (!isset($data['client_name']))
+        {
+            $configuration['error'] = ['message' => 'No client name'];
+
+            return view('create.pizza', $configuration);
+        }
+
 
         $record = DbPizza::create([
-            'id' => Uuid::uuid4(),
             'cheese_id' => $data['cheese_id'],
             'base_id' => $data['base_id'],
             'comment' => $data['comment'],
@@ -57,7 +72,8 @@ class DbPizzaController extends Controller {
         ]);
 
 
-        $record->ingredientsInsert()->sync($data['ingredients']);
+        $record->orderIngredientConnection()->sync($data['ingredients']);
+        return view('create.pizza', $configuration);
 	}
 
 	/**
@@ -69,7 +85,7 @@ class DbPizzaController extends Controller {
 	 */
 	public function show($id)
 	{
-
+        return DbPizza::with('cheese', 'base', 'ingredients')->find($id);
 	}
 
 	/**
